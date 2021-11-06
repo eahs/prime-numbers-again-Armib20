@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace PrimeNumbersAgain
 {
     class Program
     {
+        public static List<int> primes = new List<int>();
         static void Main(string[] args)
         {
             int n, prime;
@@ -25,42 +28,46 @@ namespace PrimeNumbersAgain
 
         static int FindNthPrime(int n)
         {
+            primes.Add(2);
             if (n == 1)
             {
                 return 2;
             }
             
-            int count = 1;
-            int x = 3;
-            int p = 0;
+            int i = 3;
+            int j = 1;
             
-            while (count < n)
+            while (j != n)
             {
-                if (isPrime(x) == true)
+                if (isPrime(i) == true)
                 {
-                    count += 1;
-                    p = x;
+                    primes.Add(i);
+                    j += 1;
                 }
-                x += 1;
+                i += 2;
             }
-
-            return p;
+            
+            return i;
         }
-
+        
         static bool isPrime(int n)
         {
-            if (n % 2 == 0)
+            double root = Math.Sqrt(n);
+            foreach (int prime in primes)
             {
-                return false;
-            }
-            for (int i = 3; (i * i) <= n; i += 2)
-            {
-                if (((n % i) == 0))
+                if (prime > root)
+                {
+                    break;
+                }
+                if (n % prime == 0)
                 {
                     return false;
                 }
             }
             return true;
+
+
+
         }
 
         static int GetNumber()
